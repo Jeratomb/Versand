@@ -170,40 +170,63 @@ public class HelloController {
         rdbPac.setUserData("Pac");
         rdbBPac.setUserData("BPac");
 
-
         rdb100.setDisable(true);
         rdb500.setDisable(true);
         rdbO500.setDisable(true);
-        chckIns.setDisable(true);
 
-
-        chckIns.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (rdbLett.isSelected()) {
-
+        rdbLett.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                rdb100.setDisable(true);
+                rdb500.setDisable(true);
+                rdbO500.setDisable(true);
+                rdb100.setSelected(false);
+                rdb500.setSelected(false);
+                rdbO500.setSelected(false);
+                chckIns.setDisable(true);
                 chckIns.setSelected(false);
             } else {
-                rdb100.setDisable(!newValue);
-                rdb500.setDisable(!newValue);
-                rdbO500.setDisable(!newValue);
+                chckIns.setDisable(false);
             }
         });
 
-        rdbLett.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            rdb100.setDisable(true);
-            rdb500.setDisable(true);
-            rdbO500.setDisable(true);
-            chckIns.setDisable(!newValue);
-        });
-
-
         rdbPac.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            chckIns.setDisable(!newValue);
+            if (newValue) {
+                if (chckIns.isSelected()) {
+                    rdb100.setDisable(false);
+                    rdb500.setDisable(false);
+                    rdbO500.setDisable(false);
+                }
+            }
         });
+
         rdbBPac.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            chckIns.setDisable(!newValue);
+            if (newValue) {
+                if (chckIns.isSelected()) {
+                    rdb100.setDisable(false);
+                    rdb500.setDisable(false);
+                    rdbO500.setDisable(false);
+                }
+            }
         });
+
+        chckIns.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                rdb100.setDisable(false);
+                rdb500.setDisable(false);
+                rdbO500.setDisable(false);
+            }else{
+                rdb100.setDisable(true);
+                rdb500.setDisable(true);
+                rdbO500.setDisable(true);
+                rdb100.setSelected(false);
+                rdb500.setSelected(false);
+                rdbO500.setSelected(false);
+            }
+        });
+
     }
 
+    private void loadAlt(){
 
-
+    }
 }

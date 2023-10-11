@@ -82,6 +82,10 @@ public class HelloController {
     private Label lblStatus;
     @FXML
     private Slider sldDisc;
+    @FXML
+    private Label lblAmount;
+    ToggleGroup insToggleGroup = new ToggleGroup();
+    ToggleGroup delToggleGroup = new ToggleGroup();
 
 
     @FXML
@@ -90,19 +94,56 @@ public class HelloController {
         loadRdb();
         dtpCom.setValue(LocalDate.now());
     }
+
     @FXML
     public void onbtnCalc(ActionEvent actionEvent) {
+
+        Toggle insToggle = this.insToggleGroup.getSelectedToggle();
+        Toggle delToggle = this.delToggleGroup.getSelectedToggle();
+
+        if (insToggle != null && delToggle != null) {
+
+            String insToggleData = insToggle.getUserData().toString();
+            String delToggleData = delToggle.getUserData().toString();
+
+            double preis = 0.0;
+
+            switch (delToggleData) {
+                case "Lett" -> preis += 0.6;
+                case "Pac" -> preis += 3.2;
+                case "BPac" -> preis += 5.5;
+                default -> preis += 0;
+            }
+
+            if (chckExp.isSelected()) {
+                if (!delToggleData.equals("Lett")) preis += 6;
+                else preis += 4;
+            }
+            if (dtpDel.hasProperties()) preis += 0.5;
+
+            if (chckIns.isSelected()) {
+                if (!delToggle.equals("Lett")) {
+                    switch (insToggleData) {
+                        case "100" -> preis += 1.2;
+                        case "500" -> preis += 2;
+                        case "501" -> preis += (preis / 2);
+                    }
+                }
+            }
+            lblAmount.setText(Double.toString(preis));
+        }
     }
+
 
     @FXML
     public void onbtnSave(ActionEvent actionEvent) {
     }
+
     @FXML
     public void onbtnLoad(ActionEvent actionEvent) {
     }
 
-    @FXML
-    public void loadSlider() {
+    private void loadSlider() {
         sldDisc.setMax(10);
         sldDisc.setMin(0);
         sldDisc.setShowTickMarks(true);
@@ -112,15 +153,11 @@ public class HelloController {
         sldDisc.setBlockIncrement(1);
     }
 
-    @FXML
-    public void loadRdb(){
-        ToggleGroup insToggleGroup = new ToggleGroup();
-        ToggleGroup delToggleGroup = new ToggleGroup();
-
+    private void loadRdb() {
         rdb100.setToggleGroup(insToggleGroup);
         rdb500.setToggleGroup(insToggleGroup);
         rdbO500.setToggleGroup(insToggleGroup);
-        
+
         rdb100.setUserData("100");
         rdb500.setUserData("500");
         rdbO500.setUserData("501");
@@ -132,5 +169,41 @@ public class HelloController {
         rdbLett.setUserData("Lett");
         rdbPac.setUserData("Pac");
         rdbBPac.setUserData("BPac");
+
+
+        rdb100.setDisable(true);
+        rdb500.setDisable(true);
+        rdbO500.setDisable(true);
+        chckIns.setDisable(true);
+
+
+        chckIns.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (rdbLett.isSelected()) {
+
+                chckIns.setSelected(false);
+            } else {
+                rdb100.setDisable(!newValue);
+                rdb500.setDisable(!newValue);
+                rdbO500.setDisable(!newValue);
+            }
+        });
+
+        rdbLett.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            rdb100.setDisable(true);
+            rdb500.setDisable(true);
+            rdbO500.setDisable(true);
+            chckIns.setDisable(!newValue);
+        });
+
+
+        rdbPac.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            chckIns.setDisable(!newValue);
+        });
+        rdbBPac.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            chckIns.setDisable(!newValue);
+        });
     }
+
+
+
 }

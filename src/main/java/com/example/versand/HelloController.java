@@ -153,6 +153,7 @@ public class HelloController {
         sldDisc.setBlockIncrement(1);
     }
 
+
     private void loadRdb() {
         rdb100.setToggleGroup(insToggleGroup);
         rdb500.setToggleGroup(insToggleGroup);
@@ -173,6 +174,7 @@ public class HelloController {
         rdb100.setDisable(true);
         rdb500.setDisable(true);
         rdbO500.setDisable(true);
+        txtAmount.setVisible(false);
 
         rdbLett.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -186,6 +188,12 @@ public class HelloController {
                 chckIns.setSelected(false);
             } else {
                 chckIns.setDisable(false);
+            }
+        });
+
+        rdbO500.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue){
+                txtAmount.setVisible(newValue);
             }
         });
 

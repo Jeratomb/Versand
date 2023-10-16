@@ -106,6 +106,9 @@ public class HelloController {
         String insToggleData = insToggle.getUserData().toString();
         String delToggleData = delToggle.getUserData().toString();
         double preis = 0.0;
+        double insuredAmount = 0.0;
+
+
 
         if (delToggle != null && insToggle != null) {
             switch (delToggleData) {
@@ -126,7 +129,12 @@ public class HelloController {
                     switch (insToggleData) {
                         case "100" -> preis += 1.2;
                         case "500" -> preis += 2;
-                        case "501" -> preis += (preis / 2);
+                        case "501" -> {
+                            if(!txtAmount.getText().isEmpty()){
+                                insuredAmount = Double.parseDouble(txtAmount.getText());
+                            } else insuredAmount = 0;
+                            preis += insuredAmount - (insuredAmount * 0.95);
+                        }
                         default -> preis += 0;
                     }
                 }

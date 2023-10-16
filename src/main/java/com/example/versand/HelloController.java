@@ -86,12 +86,15 @@ public class HelloController {
     private Label lblAmount;
     ToggleGroup insToggleGroup = new ToggleGroup();
     ToggleGroup delToggleGroup = new ToggleGroup();
+    @FXML
+    private TextArea txtAlt;
 
 
     @FXML
     public void initialize() {
         loadSlider();
         loadRdb();
+        loadAlt();
         dtpCom.setValue(LocalDate.now());
     }
 
@@ -100,14 +103,11 @@ public class HelloController {
 
         Toggle insToggle = this.insToggleGroup.getSelectedToggle();
         Toggle delToggle = this.delToggleGroup.getSelectedToggle();
+        String insToggleData = insToggle.getUserData().toString();
+        String delToggleData = delToggle.getUserData().toString();
+        double preis = 0.0;
 
-        if (insToggle != null && delToggle != null) {
-
-            String insToggleData = insToggle.getUserData().toString();
-            String delToggleData = delToggle.getUserData().toString();
-
-            double preis = 0.0;
-
+        if (delToggle != null && insToggle != null) {
             switch (delToggleData) {
                 case "Lett" -> preis += 0.6;
                 case "Pac" -> preis += 3.2;
@@ -127,6 +127,7 @@ public class HelloController {
                         case "100" -> preis += 1.2;
                         case "500" -> preis += 2;
                         case "501" -> preis += (preis / 2);
+                        default -> preis += 0;
                     }
                 }
             }
@@ -192,9 +193,9 @@ public class HelloController {
         });
 
         rdbO500.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue){
+            if (newValue) {
                 txtAmount.setVisible(newValue);
-            }
+            } else txtAmount.setVisible(false);
         });
 
         rdbPac.selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -222,7 +223,7 @@ public class HelloController {
                 rdb100.setDisable(false);
                 rdb500.setDisable(false);
                 rdbO500.setDisable(false);
-            }else{
+            } else {
                 rdb100.setDisable(true);
                 rdb500.setDisable(true);
                 rdbO500.setDisable(true);
@@ -234,7 +235,12 @@ public class HelloController {
 
     }
 
-    private void loadAlt(){
-
+    private void loadAlt() {
+        txtAlt.setDisable(true);
+        chckAlt.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                txtAlt.setDisable(false);
+            } else txtAlt.setDisable(true);
+        });
     }
 }

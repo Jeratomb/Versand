@@ -68,7 +68,7 @@
                   <RadioButton fx:id="rdbLett" layoutX="14.0" layoutY="55.0" mnemonicParsing="false" text="Brief" />
                   <RadioButton fx:id="rdbPac" layoutX="107.0" layoutY="55.0" mnemonicParsing="false" text="Päckchen" />
                   <RadioButton fx:id="rdbBPac" layoutX="207.0" layoutY="55.0" mnemonicParsing="false" text="Paket" />
-                  <TextArea layoutX="24.0" layoutY="149.0" prefHeight="66.0" prefWidth="337.0" />
+                  <TextArea fx:id="txtAlt" layoutX="24.0" layoutY="149.0" prefHeight="66.0" prefWidth="337.0" />
                   <CheckBox fx:id="chckAlt" layoutX="26.0" layoutY="124.0" mnemonicParsing="false" text="Alternativer Abgabeort:" />
                   <Text layoutX="24.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wunschtermin Zustellung:" />
                   <DatePicker fx:id="dtpDel" layoutX="181.0" layoutY="91.0" />

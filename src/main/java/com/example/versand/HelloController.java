@@ -103,44 +103,45 @@ public class HelloController {
 
         Toggle insToggle = this.insToggleGroup.getSelectedToggle();
         Toggle delToggle = this.delToggleGroup.getSelectedToggle();
-        String insToggleData = insToggle.getUserData().toString();
-        String delToggleData = delToggle.getUserData().toString();
+        String insToggleData = "";
+        String delToggleData = "";
+
+        if( insToggle != null) { insToggleData = insToggle.getUserData().toString(); }
+        if( delToggle != null) { delToggleData = delToggle.getUserData().toString(); }
+
         double preis = 0.0;
         double insuredAmount = 0.0;
 
 
+        switch (delToggleData) {
+            case "Lett" -> preis += 0.6;
+            case "Pac" -> preis += 3.2;
+            case "BPac" -> preis += 5.5;
+            default -> preis += 0;
+        }
 
-        if (delToggle != null && insToggle != null) {
-            switch (delToggleData) {
-                case "Lett" -> preis += 0.6;
-                case "Pac" -> preis += 3.2;
-                case "BPac" -> preis += 5.5;
-                default -> preis += 0;
-            }
+        if (chckExp.isSelected()) {
+            if (!delToggleData.equals("Lett")) preis += 6;
+            else preis += 4;
+        }
+        if (dtpDel.hasProperties()) preis += 0.5;
 
-            if (chckExp.isSelected()) {
-                if (!delToggleData.equals("Lett")) preis += 6;
-                else preis += 4;
-            }
-            if (dtpDel.hasProperties()) preis += 0.5;
-
-            if (chckIns.isSelected()) {
-                if (!delToggle.equals("Lett")) {
-                    switch (insToggleData) {
-                        case "100" -> preis += 1.2;
-                        case "500" -> preis += 2;
-                        case "501" -> {
-                            if(!txtAmount.getText().isEmpty()){
-                                insuredAmount = Double.parseDouble(txtAmount.getText());
-                            } else insuredAmount = 0;
-                            preis += insuredAmount - (insuredAmount * 0.95);
-                        }
-                        default -> preis += 0;
+        if (chckIns.isSelected()) {
+            if (!delToggleData.equals("Lett")) {
+                switch (insToggleData) {
+                    case "100" -> preis += 1.2;
+                    case "500" -> preis += 2;
+                    case "501" -> {
+                        if (!txtAmount.getText().isEmpty()) {
+                            insuredAmount = Double.parseDouble(txtAmount.getText());
+                        } else insuredAmount = 0;
+                        preis += insuredAmount - (insuredAmount * 0.95);
                     }
+                    default -> preis += 0;
                 }
             }
-            lblAmount.setText(Double.toString(preis));
-        }
+        } else preis += 0;
+        lblAmount.setText(Double.toString(preis));
     }
 
 

@@ -91,12 +91,11 @@ public class HelloController {
     @FXML
     private TextArea txtAlt;
 
-
     private TextField[] data;
     private Toggle[] toggles;
     private CheckBox[] checkBxs;
-    private final Toggle insToggle = this.insToggleGroup.getSelectedToggle();
-    private final Toggle delToggle = this.delToggleGroup.getSelectedToggle();
+    private  Toggle insToggle ;
+    private  Toggle delToggle ;
 
 
     @FXML
@@ -188,8 +187,9 @@ public class HelloController {
         for (int i = 1; i < data.length; i++) {
             dataString[i] = data[i].getText();
         }
-        for(int j = data.length; j < data.length + toggles.length; j++){
-            dataString[j] = toggles[j].getUserData().toString();
+        for(int j = data.length, i = 0; j < data.length + toggles.length; j++,i++){
+            dataString[j] = insToggleGroup.getSelectedToggle().getUserData().toString();
+            else dataString[j] = "";
         }
         for(int k = data.length + toggles.length; k < dataString.length -1; k++){
             if(checkBxs[k].isSelected()) dataString[k] = "true";

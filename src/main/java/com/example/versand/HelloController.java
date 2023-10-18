@@ -92,8 +92,40 @@ public class HelloController {
     private TextArea txtAlt;
 
 
+    private TextField[] data;
+    private Toggle[] toggles;
+    private CheckBox[] checkBxs;
+    private final Toggle insToggle = this.insToggleGroup.getSelectedToggle();
+    private final Toggle delToggle = this.delToggleGroup.getSelectedToggle();
+
+
     @FXML
     public void initialize() {
+        data = new TextField[]{
+                txtID,
+                txtFname,
+                txtFLname,
+                txtFstr,
+                txtFplz,
+                txtFstrNr,
+                txtTname,
+                txtTLname,
+                txtTstr,
+                txtTstrNr,
+                txtTplz,
+                txtTloc,
+                txtDesc
+        };
+        toggles = new Toggle[]{
+                insToggle,
+                delToggle,
+        };
+        checkBxs = new CheckBox[]{
+                chckExp,
+                chckAlt,
+                chckIns
+        };
+
         loadSlider();
         loadRdb();
         loadAlt();
@@ -103,13 +135,15 @@ public class HelloController {
     @FXML
     public void onbtnCalc(ActionEvent actionEvent) {
 
-        Toggle insToggle = this.insToggleGroup.getSelectedToggle();
-        Toggle delToggle = this.delToggleGroup.getSelectedToggle();
         String insToggleData = "";
         String delToggleData = "";
 
-        if( insToggle != null) { insToggleData = insToggle.getUserData().toString(); }
-        if( delToggle != null) { delToggleData = delToggle.getUserData().toString(); }
+        if (insToggle != null) {
+            insToggleData = insToggle.getUserData().toString();
+        }
+        if (delToggle != null) {
+            delToggleData = delToggle.getUserData().toString();
+        }
 
         double preis = 0.0;
         double insuredAmount = 0.0;
@@ -149,7 +183,18 @@ public class HelloController {
 
     @FXML
     public void onbtnSave(ActionEvent actionEvent) {
-        ArrayList<String> data = new ArrayList<>();
+        String[] dataString = new String[data.length + toggles.length + checkBxs.length + 1];
+        dataString[0] = dtpCom.toString();
+        for (int i = 1; i < data.length; i++) {
+            dataString[i] = data[i].getText();
+        }
+        for(int j = data.length; j < data.length + toggles.length; j++){
+            dataString[j] = toggles[j].getUserData().toString();
+        }
+        for(int k = data.length + toggles.length; k < dataString.length -1; k++){
+            if(checkBxs[k].isSelected()) dataString[k] = "true";
+            else dataString[k] = "false";
+        }
     }
 
     @FXML

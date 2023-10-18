@@ -5,8 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class HelloController {
 
@@ -147,6 +149,7 @@ public class HelloController {
 
     @FXML
     public void onbtnSave(ActionEvent actionEvent) {
+        ArrayList<String> data = new ArrayList<>();
     }
 
     @FXML

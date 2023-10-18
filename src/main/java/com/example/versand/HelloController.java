@@ -86,6 +86,7 @@ public class HelloController {
     private Slider sldDisc;
     @FXML
     private Label lblAmount;
+    private boolean status;
     ToggleGroup insToggleGroup = new ToggleGroup();
     ToggleGroup delToggleGroup = new ToggleGroup();
     @FXML
@@ -94,8 +95,7 @@ public class HelloController {
     private TextField[] data;
     private Toggle[] toggles;
     private CheckBox[] checkBxs;
-    private  Toggle insToggle ;
-    private  Toggle delToggle ;
+
 
 
     @FXML
@@ -105,8 +105,9 @@ public class HelloController {
                 txtFname,
                 txtFLname,
                 txtFstr,
-                txtFplz,
                 txtFstrNr,
+                txtFplz,
+                txtFloc,
                 txtTname,
                 txtTLname,
                 txtTstr,
@@ -114,10 +115,6 @@ public class HelloController {
                 txtTplz,
                 txtTloc,
                 txtDesc
-        };
-        toggles = new Toggle[]{
-                insToggle,
-                delToggle,
         };
         checkBxs = new CheckBox[]{
                 chckExp,
@@ -133,6 +130,8 @@ public class HelloController {
 
     @FXML
     public void onbtnCalc(ActionEvent actionEvent) {
+        Toggle delToggle = delToggleGroup.getSelectedToggle();
+        Toggle insToggle = insToggleGroup.getSelectedToggle();
 
         String insToggleData = "";
         String delToggleData = "";
@@ -182,19 +181,28 @@ public class HelloController {
 
     @FXML
     public void onbtnSave(ActionEvent actionEvent) {
-        String[] dataString = new String[data.length + toggles.length + checkBxs.length + 1];
-        dataString[0] = dtpCom.toString();
-        for (int i = 1; i < data.length; i++) {
-            dataString[i] = data[i].getText();
+        String[] dataString = new String[data.length + 2 + checkBxs.length + 1];
+        for (int i = 0; i < data.length; i++) {
+            if (i == 1) {
+                LocalDate selectedDate = dtpCom.getValue();
+                dataString[i] = selectedDate != null ? selectedDate.toString() : "";
+            } else {
+                dataString[i] = data[i].getText();
+            }
         }
-        for(int j = data.length, i = 0; j < data.length + toggles.length; j++,i++){
-            dataString[j] = insToggleGroup.getSelectedToggle().getUserData().toString();
-            else dataString[j] = "";
-        }
-        for(int k = data.length + toggles.length; k < dataString.length -1; k++){
-            if(checkBxs[k].isSelected()) dataString[k] = "true";
+
+        // Der Rest Ihrer onSave-Methode bleibt unverändert.
+        dataString[data.length + 1] = insToggleGroup.getSelectedToggle().getUserData().toString();
+        dataString[data.length + 2] = delToggleGroup.getSelectedToggle().getUserData().toString();
+
+        for (int k = data.length + 2, i = 0; k < dataString.length - 1; k++) {
+            if (checkBxs[i].isSelected()) dataString[k] = "true";
             else dataString[k] = "false";
         }
+        Data data = new Data();
+        status = data.useData(dataString);
+        if (status) lblStatus.setText("Erfolgreich gespeichert");
+        else lblStatus.setText("Fehler beim Einfügen!");
     }
 
     @FXML

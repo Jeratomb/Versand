@@ -148,24 +148,24 @@ public class HelloController {
 
 
         switch (delToggleData) {
-            case "Lett" -> preis += 0.6;
-            case "Pac" -> preis += 3.2;
-            case "BPac" -> preis += 5.5;
+            case "Letter" -> preis += 0.6;
+            case "Package" -> preis += 3.2;
+            case "BigPackage" -> preis += 5.5;
             default -> preis += 0;
         }
 
         if (chckExp.isSelected()) {
-            if (!delToggleData.equals("Lett")) preis += 6;
+            if (!delToggleData.equals("Letter")) preis += 6;
             else preis += 4;
         }
         if (dtpDel.hasProperties()) preis += 0.5;
 
         if (chckIns.isSelected()) {
-            if (!delToggleData.equals("Lett")) {
+            if (!delToggleData.equals("Letter")) {
                 switch (insToggleData) {
-                    case "100" -> preis += 1.2;
-                    case "500" -> preis += 2;
-                    case "501" -> {
+                    case "<100" -> preis += 1.2;
+                    case "<500" -> preis += 2;
+                    case "Over 500" -> {
                         if (!txtAmount.getText().isEmpty()) {
                             insuredAmount = Double.parseDouble(txtAmount.getText());
                         } else insuredAmount = 0;
@@ -191,14 +191,16 @@ public class HelloController {
             }
         }
 
-        // Der Rest Ihrer onSave-Methode bleibt unverändert.
-        dataString[data.length + 1] = insToggleGroup.getSelectedToggle().getUserData().toString();
-        dataString[data.length + 2] = delToggleGroup.getSelectedToggle().getUserData().toString();
-
-        for (int k = data.length + 2, i = 0; k < dataString.length - 1; k++) {
-            if (checkBxs[i].isSelected()) dataString[k] = "true";
-            else dataString[k] = "false";
+        for (int k = data.length, i = 0; k < data.length + checkBxs.length + 1; k++, i++) {
+            if (checkBxs[i].isSelected()) {
+                dataString[k] = checkBxs[i].getText() + " true";
+                if(checkBxs[i] == chckAlt) dataString[k + 1] = txtAlt.getText().toString();
+            } else dataString[k] = checkBxs[i].getText() + " false";
         }
+
+        dataString[data.length + checkBxs.length] = "Versicherungshöhe: " + insToggleGroup.getSelectedToggle().getUserData().toString();
+        dataString[data.length + checkBxs.length + 1] = "Paketart: " + delToggleGroup.getSelectedToggle().getUserData().toString();
+
         Data data = new Data();
         status = data.useData(dataString);
         if (status) lblStatus.setText("Erfolgreich gespeichert");
@@ -225,17 +227,17 @@ public class HelloController {
         rdb500.setToggleGroup(insToggleGroup);
         rdbO500.setToggleGroup(insToggleGroup);
 
-        rdb100.setUserData("100");
-        rdb500.setUserData("500");
-        rdbO500.setUserData("501");
+        rdb100.setUserData("<100");
+        rdb500.setUserData("<500");
+        rdbO500.setUserData("Over 500");
 
         rdbLett.setToggleGroup(delToggleGroup);
         rdbPac.setToggleGroup(delToggleGroup);
         rdbBPac.setToggleGroup(delToggleGroup);
 
-        rdbLett.setUserData("Lett");
-        rdbPac.setUserData("Pac");
-        rdbBPac.setUserData("BPac");
+        rdbLett.setUserData("Letter");
+        rdbPac.setUserData("Package");
+        rdbBPac.setUserData("BigPackage");
 
         rdb100.setDisable(true);
         rdb500.setDisable(true);

@@ -191,7 +191,7 @@ public class HelloController {
             }
         }
 
-        for (int k = data.length, i = 0; k < data.length + checkBxs.length + 1; k++, i++) {
+        for (int k = data.length, i = 0; k < data.length + checkBxs.length ; k++, i++) {
             if (checkBxs[i].isSelected()) {
                 dataString[k] = checkBxs[i].getText() + " true";
                 if(checkBxs[i] == chckAlt) dataString[k + 1] = txtAlt.getText().toString();

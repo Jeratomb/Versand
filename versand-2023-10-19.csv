@@ -1,0 +1,4 @@
+ID,From_Data,To_Data,Package_Description,Express, Insured,Alternative Packagedisplace
+091234124,2023-10-19,,,,,,,,,,,,,Express false,Alternativer Abgabeort: false,versichert false,Versicherungshöhe: <100,Paketart: Letter,null
+ID,From_Data,To_Data,Package_Description,Express, Insured,Alternative Packagedisplace
+012314521,2023-10-19,Jertila,Ludwigplatz,11,94447,Plattling,Christian,Brunner,Hurensohnallee,420,94447,Crackcity,Videospiel,Express true,Alternativer Abgabeort: true,versichert true,Versicherungshöhe: <500,Paketart: Package,null

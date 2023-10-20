@@ -7,13 +7,12 @@ public class Versandobjekt {
     public LocalDate placed;
     public Kunde from;
     public Kunde to;
-
+    public String description;
     public String express;
     public String altLoc;
     public String altLocPlace;
     public String insured;
     public String insuranceType;
-
     public String packageType;
 
     public String getiD() {
@@ -46,6 +45,14 @@ public class Versandobjekt {
 
     public void setTo(Kunde to) {
         this.to = to;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getExpress() {
@@ -96,11 +103,12 @@ public class Versandobjekt {
         this.altLocPlace = altLocPlace;
     }
 
-    public Versandobjekt(String iD, LocalDate placed, Kunde from, Kunde to, String express, String altLoc, String altLocPlace, String insured, String insuranceType, String packageType) {
+    public Versandobjekt(String iD, LocalDate placed, Kunde from, Kunde to, String description, String express, String altLoc, String altLocPlace, String insured, String insuranceType, String packageType) {
         this.iD = iD;
         this.placed = placed;
         this.from = from;
         this.to = to;
+        this.description = description;
         this.express = express;
         this.altLoc = altLoc;
         this.altLocPlace = altLocPlace;
@@ -108,5 +116,4 @@ public class Versandobjekt {
         this.insuranceType = insuranceType;
         this.packageType = packageType;
     }
-
 }

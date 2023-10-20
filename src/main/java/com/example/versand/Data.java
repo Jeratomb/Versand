@@ -27,26 +27,27 @@ public class Data {
     private static final int POS_TO_PLZ = 12;
     private static final int POS_TO_LOC = 13;
 
-    private static final int POS_EXPRESS = 14;
-    private static final int POS_ALT_LOC = 15;
-    private static final int POS_ALT_LOC_PLACE = 16;
-    private static final int POS_INSURED = 17;
-    private static final int POS_INSUR_TYPE = 18;
-    private static final int POS_PACKAGE_TYPE = 19;
+    private static final int POS_DESCRIPTION = 14;
+    private static final int POS_EXPRESS = 15;
+    private static final int POS_ALT_LOC = 16;
+    private static final int POS_ALT_LOC_PLACE = 17;
+    private static final int POS_INSURED = 18;
+    private static final int POS_INSUR_TYPE = 19;
+    private static final int POS_PACKAGE_TYPE = 20;
 
     private static final String CSV_SEPARATOR = ",";
 
     public boolean useData(String[] data) {
-        if (data == null || data.length < 20) {
+        if (data == null || data.length <= 20) {
             return false;
         } else{
 
             String ID = data[POS_ID];
         LocalDate place = parseLocalDate(data[POS_ORDER_PLACED]);
-        Kunde from = new Kunde(data[POS_FROM_VNAME], data[POS_FROM_LNAME], data[POS_FROM_STREET], data[POS_FROM_STREETNR], data[POS_FROM_PLZ], data[POS_FROM_LOC]);
+        Kunde from = new Kunde("Vorname: " + data[POS_FROM_VNAME],"Nachname: " +  data[POS_FROM_LNAME], data[POS_FROM_STREET], data[POS_FROM_STREETNR], data[POS_FROM_PLZ], data[POS_FROM_LOC]);
         Kunde to = new Kunde(data[POS_TO_VNAME], data[POS_TO_LNAME], data[POS_TO_STREET], data[POS_TO_STREETNR], data[POS_TO_PLZ], data[POS_TO_LOC]);
 
-        Versandobjekt versandobjekt = new Versandobjekt(ID, place, from, to, data[POS_EXPRESS], data[POS_ALT_LOC],data[POS_ALT_LOC_PLACE], data[POS_INSURED], data[POS_INSUR_TYPE], data[POS_PACKAGE_TYPE]);
+        Versandobjekt versandobjekt = new Versandobjekt(ID, place, from, to,data[POS_DESCRIPTION], data[POS_EXPRESS], data[POS_ALT_LOC],data[POS_ALT_LOC_PLACE], data[POS_INSURED], data[POS_INSUR_TYPE], data[POS_PACKAGE_TYPE]);
 
 
         String filename = "versand-" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".csv";
@@ -78,13 +79,14 @@ public class Data {
             line.append(versand.getFrom().getStreet()).append(CSV_SEPARATOR);
             line.append(versand.getFrom().getStreetNr()).append(CSV_SEPARATOR);
             line.append(versand.getFrom().getPlz()).append(CSV_SEPARATOR);
-            line.append(versand.getFrom().getLoc()).append(CSV_SEPARATOR);
+            line.append(versand.getFrom().getLoc()).append(CSV_SEPARATOR).append(System.lineSeparator());
             line.append(versand.getTo().getvName()).append(CSV_SEPARATOR);
             line.append(versand.getTo().getlName()).append(CSV_SEPARATOR);
             line.append(versand.getTo().getStreet()).append(CSV_SEPARATOR);
             line.append(versand.getTo().getStreetNr()).append(CSV_SEPARATOR);
             line.append(versand.getTo().getPlz()).append(CSV_SEPARATOR);
             line.append(versand.getTo().getLoc()).append(CSV_SEPARATOR);
+            line.append(versand.getDescription()).append(CSV_SEPARATOR);
             line.append(versand.getExpress()).append(CSV_SEPARATOR);
             line.append(versand.getAltLoc()).append(CSV_SEPARATOR);
             line.append(versand.getAltLocPlace()).append(CSV_SEPARATOR);

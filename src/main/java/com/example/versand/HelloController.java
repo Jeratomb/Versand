@@ -181,25 +181,28 @@ public class HelloController {
 
     @FXML
     public void onbtnSave(ActionEvent actionEvent) {
-        String[] dataString = new String[data.length + 2 + checkBxs.length + 1];
-        for (int i = 0; i < data.length; i++) {
-            if (i == 1) {
-                LocalDate selectedDate = dtpCom.getValue();
-                dataString[i] = selectedDate != null ? selectedDate.toString() : "";
-            } else {
-                dataString[i] = data[i].getText();
-            }
+        String[] dataString = new String[data.length + 2 + checkBxs.length + 2];
+        LocalDate selectedDate = dtpCom.getValue();
+        dataString[0] = data[0].getText();
+        dataString[1] = selectedDate != null ? selectedDate.toString() : "";
+
+
+        for (int i = 2, k = 1; i < data.length + 1; i++, k++) {
+                dataString[i] = data[k].getText();
         }
 
-        for (int k = data.length, i = 0; k < data.length + checkBxs.length ; k++, i++) {
+        for (int k = data.length + 1, i = 0; k < data.length + checkBxs.length + 2; k++, i++) {
             if (checkBxs[i].isSelected()) {
-                dataString[k] = checkBxs[i].getText() + " true";
-                if(checkBxs[i] == chckAlt) dataString[k + 1] = txtAlt.getText().toString();
-            } else dataString[k] = checkBxs[i].getText() + " false";
+                dataString[k] = checkBxs[i].getText() + " True";
+                if(checkBxs[i] == chckAlt) {
+                    k = k + 1;
+                    dataString[k] = "Ablageort " + txtAlt.getText().toString();
+                }
+            } else dataString[k] = checkBxs[i].getText() + " False";
         }
 
-        dataString[data.length + checkBxs.length] = "Versicherungshöhe: " + insToggleGroup.getSelectedToggle().getUserData().toString();
-        dataString[data.length + checkBxs.length + 1] = "Paketart: " + delToggleGroup.getSelectedToggle().getUserData().toString();
+        dataString[data.length + checkBxs.length + 2] = "Versicherungshöhe: " + insToggleGroup.getSelectedToggle().getUserData().toString();
+        dataString[data.length + checkBxs.length + 3] = "Paketart: " + delToggleGroup.getSelectedToggle().getUserData().toString();
 
         Data data = new Data();
         status = data.useData(dataString);

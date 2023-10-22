@@ -183,6 +183,7 @@ public class HelloController {
     public void onbtnSave(ActionEvent actionEvent) {
         String[] dataString = new String[data.length + 2 + checkBxs.length + 2];
         LocalDate selectedDate = dtpCom.getValue();
+        String insuranceAmount;
         dataString[0] = data[0].getText();
         dataString[1] = selectedDate != null ? selectedDate.toString() : "";
 
@@ -193,15 +194,17 @@ public class HelloController {
 
         for (int k = data.length + 1, i = 0; k < data.length + checkBxs.length + 2; k++, i++) {
             if (checkBxs[i].isSelected()) {
-                dataString[k] = checkBxs[i].getText() + " True";
+                dataString[k] = checkBxs[i].getText() + " Ja";
                 if(checkBxs[i] == chckAlt) {
                     k = k + 1;
-                    dataString[k] = "Ablageort " + txtAlt.getText().toString();
+                    dataString[k] = "Ablageort: " + txtAlt.getText().toString();
                 }
-            } else dataString[k] = checkBxs[i].getText() + " False";
+            } else dataString[k] = checkBxs[i].getText() + "Nein";
         }
 
-        dataString[data.length + checkBxs.length + 2] = "Versicherungshöhe: " + insToggleGroup.getSelectedToggle().getUserData().toString();
+        if(insToggleGroup.getSelectedToggle().getUserData().toString() == "Over 500") insuranceAmount = txtAmount.toString();
+        else insuranceAmount = insToggleGroup.getSelectedToggle().getUserData().toString();
+        dataString[data.length + checkBxs.length + 2] = "Versicherungshöhe: " + insuranceAmount;
         dataString[data.length + checkBxs.length + 3] = "Paketart: " + delToggleGroup.getSelectedToggle().getUserData().toString();
 
         Data data = new Data();

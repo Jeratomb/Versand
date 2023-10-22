@@ -44,7 +44,8 @@ public class Data {
 
             String ID = data[POS_ID];
         LocalDate place = parseLocalDate(data[POS_ORDER_PLACED]);
-        Kunde from = new Kunde("Vorname: " + data[POS_FROM_VNAME],"Nachname: " +  data[POS_FROM_LNAME], data[POS_FROM_STREET], data[POS_FROM_STREETNR], data[POS_FROM_PLZ], data[POS_FROM_LOC]);
+        Kunde from = new Kunde(data[POS_FROM_VNAME],  data[POS_FROM_LNAME],  data[POS_FROM_STREET],  data[POS_FROM_STREETNR],
+                data[POS_FROM_PLZ],  data[POS_FROM_LOC]);
         Kunde to = new Kunde(data[POS_TO_VNAME], data[POS_TO_LNAME], data[POS_TO_STREET], data[POS_TO_STREETNR], data[POS_TO_PLZ], data[POS_TO_LOC]);
 
         Versandobjekt versandobjekt = new Versandobjekt(ID, place, from, to,data[POS_DESCRIPTION], data[POS_EXPRESS], data[POS_ALT_LOC],data[POS_ALT_LOC_PLACE], data[POS_INSURED], data[POS_INSUR_TYPE], data[POS_PACKAGE_TYPE]);
@@ -66,30 +67,32 @@ public class Data {
             writer.write("ID,From_Data,To_Data,Package_Description,Express, Insured,Alternative Packagedisplace"); // Header-Zeile
             writer.newLine();
             if (!new File(filename).exists()) {
-                writer.write("iD,placed,from_vName,from_lName,from_Street,from_StreetNr,from_Plz,from_Loc,to_vName,to_lName,to_Street,to_StreetNr,to_Plz,to_Loc");
+                writer.write("Auftrag" + versand.getiD());
                 writer.newLine();
             }
 
             StringBuilder line = new StringBuilder();
-            line.append(versand.getiD()).append(CSV_SEPARATOR);
+            line.append("ID: " + versand.getiD()).append(CSV_SEPARATOR);
             LocalDate placedDate = versand.getPlaced();
-            line.append(placedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append(CSV_SEPARATOR);
-            line.append(versand.getFrom().getvName()).append(CSV_SEPARATOR);
-            line.append(versand.getFrom().getlName()).append(CSV_SEPARATOR);
-            line.append(versand.getFrom().getStreet()).append(CSV_SEPARATOR);
-            line.append(versand.getFrom().getStreetNr()).append(CSV_SEPARATOR);
-            line.append(versand.getFrom().getPlz()).append(CSV_SEPARATOR);
-            line.append(versand.getFrom().getLoc()).append(CSV_SEPARATOR).append(System.lineSeparator());
-            line.append(versand.getTo().getvName()).append(CSV_SEPARATOR);
-            line.append(versand.getTo().getlName()).append(CSV_SEPARATOR);
-            line.append(versand.getTo().getStreet()).append(CSV_SEPARATOR);
-            line.append(versand.getTo().getStreetNr()).append(CSV_SEPARATOR);
-            line.append(versand.getTo().getPlz()).append(CSV_SEPARATOR);
-            line.append(versand.getTo().getLoc()).append(CSV_SEPARATOR);
-            line.append(versand.getDescription()).append(CSV_SEPARATOR);
-            line.append(versand.getExpress()).append(CSV_SEPARATOR);
+            line.append("Aufgegeben am: " + placedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append(CSV_SEPARATOR).append(System.lineSeparator());
+            line.append("Absender: ");
+            line.append("Vorname: " + versand.getFrom().getvName()).append(CSV_SEPARATOR);
+            line.append("Nachname: " +versand.getFrom().getlName()).append(CSV_SEPARATOR);
+            line.append("Straße: " +versand.getFrom().getStreet()).append(CSV_SEPARATOR);
+            line.append("StraßenNr: " +versand.getFrom().getStreetNr()).append(CSV_SEPARATOR);
+            line.append("PLZ: " + versand.getFrom().getPlz()).append(CSV_SEPARATOR);
+            line.append("Ort: " + versand.getFrom().getLoc()).append(CSV_SEPARATOR).append(System.lineSeparator());
+            line.append("Empfänger: ");
+            line.append("Vorname: " +versand.getTo().getvName()).append(CSV_SEPARATOR);
+            line.append("Nachname: " +versand.getTo().getlName()).append(CSV_SEPARATOR);
+            line.append("Straße: " +versand.getTo().getStreet()).append(CSV_SEPARATOR);
+            line.append("StraßenNr: " +versand.getTo().getStreetNr()).append(CSV_SEPARATOR);
+            line.append("PLZ: " +versand.getTo().getPlz()).append(CSV_SEPARATOR);
+            line.append("Ort: " +versand.getTo().getLoc()).append(CSV_SEPARATOR);
+            line.append("Inhalt: " +versand.getDescription()).append(CSV_SEPARATOR);
             line.append(versand.getAltLoc()).append(CSV_SEPARATOR);
             line.append(versand.getAltLocPlace()).append(CSV_SEPARATOR);
+            line.append(versand.getExpress()).append(CSV_SEPARATOR);
             line.append(versand.getInsured()).append(CSV_SEPARATOR);
             line.append(versand.getInsuranceType()).append(CSV_SEPARATOR);
             line.append(versand.getPackageType());

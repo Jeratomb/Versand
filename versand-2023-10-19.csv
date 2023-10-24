@@ -1,4 +1,18 @@
-ID,From_Data,To_Data,Package_Description,Express, Insured,Alternative Packagedisplace
-091234124,2023-10-19,,,,,,,,,,,,,Express false,Alternativer Abgabeort: false,versichert false,Versicherungshöhe: <100,Paketart: Letter,null
-ID,From_Data,To_Data,Package_Description,Express, Insured,Alternative Packagedisplace
-012314521,2023-10-19,Jertila,Ludwigplatz,11,94447,Plattling,Christian,Brunner,Hurensohnallee,420,94447,Crackcity,Videospiel,Express true,Alternativer Abgabeort: true,versichert true,Versicherungshöhe: <500,Paketart: Package,null
+ID: 12309,Aufgegeben am: 2023-10-19,
+Absender: Vorname: Rayen,Nachname: Jertila,Straße: Ludwigplatz,StraßenNr: 11,PLZ: 94447,Ort: Plattling,
+Empfänger: Vorname: Max,Nachname: Mustermann,Straße: Musterstrasse,StraßenNr: 1,PLZ: 11111,Ort: Musterstadt,Inhalt: Mustergegenstand,Alternativer Abgabeort: Ja,Ablageort: Hinterm Haus durch den Garten,Express: Ja,Versichert: Ja,Versicherungshöhe: 2123,Paketart: Package
+ID: 12310,Aufgegeben am: 2023-10-19,
+Absender: Vorname: Rayen,Nachname: Jertila,Straße: Ludwigplatz,StraßenNr: 11,PLZ: 94447,Ort: Plattling,
+Empfänger: Vorname: Max,Nachname: Mustermann,Straße: Musterstrasse,StraßenNr: 1,PLZ: 11111,Ort: Musterstadt,Inhalt: Mustergegenstand,Alternativer Abgabeort: Ja,Ablageort: Hinterm Haus durch den Garten,Express: Ja,Versichert: Ja,Versicherungshöhe: 2123,Paketart: Package
+ID: 12311,Aufgegeben am: 2023-10-19,
+Absender: Vorname: Rayen,Nachname: Jertila,Straße: Ludwigplatz,StraßenNr: 11,PLZ: 94447,Ort: Plattling,
+Empfänger: Vorname: Max,Nachname: Mustermann,Straße: Musterstrasse,StraßenNr: 1,PLZ: 11111,Ort: Musterstadt,Inhalt: Mustergegenstand,Alternativer Abgabeort: Ja,Ablageort: Hinterm Haus durch den Garten,Express: Ja,Versichert: Ja,Versicherungshöhe: 2123,Paketart: Package
+ID: 12312,Aufgegeben am: 2023-10-19,
+Absender: Vorname: Rayen,Nachname: Jertila,Straße: Ludwigplatz,StraßenNr: 11,PLZ: 94447,Ort: Plattling,
+Empfänger: Vorname: Max,Nachname: Mustermann,Straße: Musterstrasse,StraßenNr: 1,PLZ: 11111,Ort: Musterstadt,Inhalt: Mustergegenstand,Alternativer Abgabeort: Ja,Ablageort: Hinterm Haus durch den Garten,Express: Ja,Versichert: Ja,Versicherungshöhe: 2123,Paketart: Package
+ID: 12313,Aufgegeben am: 2023-10-19,
+Absender: Vorname: Rayen,Nachname: Jertila,Straße: Ludwigplatz,StraßenNr: 11,PLZ: 94447,Ort: Plattling,
+Empfänger: Vorname: Max,Nachname: Mustermann,Straße: Musterstrasse,StraßenNr: 1,PLZ: 11111,Ort: Musterstadt,Inhalt: Mustergegenstand,Alternativer Abgabeort: Ja,Ablageort: Hinterm Haus durch den Garten,Express: Ja,Versichert: Ja,Versicherungshöhe: 2123,Paketart: Package
+ID: 12314,Aufgegeben am: 2023-10-19,
+Absender: Vorname: Rayen,Nachname: Jertila,Straße: Ludwigplatz,StraßenNr: 11,PLZ: 94447,Ort: Plattling,
+Empfänger: Vorname: Max,Nachname: Mustermann,Straße: Musterstrasse,StraßenNr: 1,PLZ: 11111,Ort: Musterstadt,Inhalt: Mustergegenstand,Alternativer Abgabeort: Ja,Ablageort: Hinterm Haus durch den Garten,Express: Ja,Versichert: Ja,Versicherungshöhe: 2123,Paketart: Package

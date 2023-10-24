@@ -97,7 +97,6 @@ public class HelloController {
     private CheckBox[] checkBxs;
 
 
-
     @FXML
     public void initialize() {
         data = new TextField[]{
@@ -189,20 +188,21 @@ public class HelloController {
 
 
         for (int i = 2, k = 1; i < data.length + 1; i++, k++) {
-                dataString[i] = data[k].getText();
+            dataString[i] = data[k].getText();
         }
 
         for (int k = data.length + 1, i = 0; k < data.length + checkBxs.length + 2; k++, i++) {
             if (checkBxs[i].isSelected()) {
-                dataString[k] = checkBxs[i].getText() + " Ja";
-                if(checkBxs[i] == chckAlt) {
+                dataString[k] = checkBxs[i].getText() + ": Ja";
+                if (checkBxs[i] == chckAlt) {
                     k = k + 1;
                     dataString[k] = "Ablageort: " + txtAlt.getText().toString();
                 }
-            } else dataString[k] = checkBxs[i].getText() + "Nein";
+            } else dataString[k] = checkBxs[i].getText() + ": Nein";
         }
 
-        if(insToggleGroup.getSelectedToggle().getUserData().toString() == "Over 500") insuranceAmount = txtAmount.toString();
+        if (insToggleGroup.getSelectedToggle().getUserData().toString() == "Over 500")
+            insuranceAmount = txtAmount.getText().toString();
         else insuranceAmount = insToggleGroup.getSelectedToggle().getUserData().toString();
         dataString[data.length + checkBxs.length + 2] = "Versicherungshöhe: " + insuranceAmount;
         dataString[data.length + checkBxs.length + 3] = "Paketart: " + delToggleGroup.getSelectedToggle().getUserData().toString();
@@ -215,6 +215,43 @@ public class HelloController {
 
     @FXML
     public void onbtnLoad(ActionEvent actionEvent) {
+        String ID = data[0].getText();
+        LocalDate selectedDate = dtpCom.getValue();
+        String dateString = selectedDate != null ? selectedDate.toString() : "";
+        Versandobjekt object = Data.getData(dateString, ID);
+
+        txtID.setText(ID);
+        dtpCom.setValue(selectedDate);
+        txtFname.setText(object.getFrom().getvName());
+        txtFLname.setText(object.getFrom().getlName());
+        txtFstr.setText(object.getFrom().getStreet());
+        txtFstrNr.setText(object.getFrom().getStreetNr());
+        txtFplz.setText(object.getFrom().getPlz());
+        txtFloc.setText(object.getFrom().getLoc());
+        txtTname.setText(object.getTo().getvName());
+        txtTLname.setText(object.getTo().getlName());
+        txtTstr.setText(object.getTo().getStreet());
+        txtTstrNr.setText(object.getTo().getStreetNr());
+        txtTplz.setText(object.getTo().getPlz());
+        txtTloc.setText(object.getTo().getLoc());
+        txtDesc.setText(object.getDescription());
+        chckExp.setSelected(object.getExpress().equalsIgnoreCase("Ja"));
+        chckAlt.setSelected(object.getAltLoc().equalsIgnoreCase("Ja"));
+        if(chckAlt.isSelected()) txtAlt.setText(object.getAltLocPlace());
+        chckIns.setSelected(object.getInsured().equalsIgnoreCase("Ja"));
+        if(chckIns.isSelected()){
+
+            if (object.getInsuranceType().equalsIgnoreCase("<100")) {
+                rdb100.setSelected(true);
+            } else if (object.getInsuranceType().equalsIgnoreCase("<500")) {
+                rdb500.setSelected(true);
+            } else{
+                rdbO500.setSelected(true);
+                txtAmount.setText(object.getInsuranceType());
+            }
+        }
+
+
     }
 
     private void loadSlider() {

@@ -7,6 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -132,8 +134,10 @@ public class HelloController {
         Toggle delToggle = delToggleGroup.getSelectedToggle();
         Toggle insToggle = insToggleGroup.getSelectedToggle();
 
+        DecimalFormat f = new DecimalFormat("0.00");
         String insToggleData = "";
         String delToggleData = "";
+        double discount = sldDisc.getValue() /  10;
 
         if (insToggle != null) {
             insToggleData = insToggle.getUserData().toString();
@@ -174,7 +178,9 @@ public class HelloController {
                 }
             }
         } else preis += 0;
-        lblAmount.setText(Double.toString(preis));
+        if(sldDisc.getValue() != 0) preis = preis - (preis * discount);
+        String output = f.format(preis);
+        lblAmount.setText(output);
     }
 
 
@@ -183,6 +189,9 @@ public class HelloController {
         String[] dataString = new String[data.length + 2 + checkBxs.length + 3];
         LocalDate selectedDate = dtpCom.getValue();
         String insuranceAmount;
+        String altDate;
+        if(dtpDel.getValue() != null) altDate = dtpDel.getValue().toString();
+        else altDate = "";
         dataString[0] = data[0].getText();
         dataString[1] = selectedDate != null ? selectedDate.toString() : "";
 
@@ -191,7 +200,7 @@ public class HelloController {
             dataString[i] = data[k].getText();
         }
 
-        for (int k = data.length + 1, i = 0; k < data.length + checkBxs.length + 2; k++, i++) {
+        for (int k = data.length + 1, i = 0; i < 3; k++, i++) {
             if (checkBxs[i].isSelected()) {
                 dataString[k] = checkBxs[i].getText() + ": Ja";
                 if (checkBxs[i] == chckAlt) {
@@ -207,7 +216,8 @@ public class HelloController {
         dataString[data.length + checkBxs.length + 2] = "Versicherungshöhe: " + insuranceAmount;
         dataString[data.length + checkBxs.length + 3] = "Paketart: " + delToggleGroup.getSelectedToggle().getUserData().toString();
 
-//        dataString[data.length + checkBxs.length + 4] = dtpDel.getValue().toString();
+        if(!altDate.isEmpty()) dataString[data.length + checkBxs.length + 4] = altDate;
+        else dataString[data.length + checkBxs.length + 4] = "";
 
         Data data = new Data();
         status = data.useData(dataString);
@@ -257,6 +267,7 @@ public class HelloController {
         }else clear();
     }
 
+    @FXML
     private void clear(){
         txtID.setText("");
         dtpCom.setValue(null);
@@ -278,17 +289,20 @@ public class HelloController {
         chckIns.setSelected(false);
 
     }
+
+    @FXML
     private void loadSlider() {
         sldDisc.setMax(10);
         sldDisc.setMin(0);
         sldDisc.setShowTickMarks(true);
         sldDisc.setShowTickLabels(true);
         sldDisc.setMajorTickUnit(1);
-        sldDisc.setMinorTickCount(0);
+        sldDisc.setMinorTickCount(1);
         sldDisc.setBlockIncrement(1);
     }
 
 
+    @FXML
     private void loadRdb() {
         rdb100.setToggleGroup(insToggleGroup);
         rdb500.setToggleGroup(insToggleGroup);
@@ -368,7 +382,7 @@ public class HelloController {
         });
 
     }
-
+    @FXML
     private void loadAlt() {
         txtAlt.setDisable(true);
         chckAlt.selectedProperty().addListener((observable, oldValue, newValue) -> {

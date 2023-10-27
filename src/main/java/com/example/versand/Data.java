@@ -36,6 +36,7 @@ public class Data {
     private static final int POS_INSURED = 18;
     private static final int POS_INSUR_TYPE = 19;
     private static final int POS_PACKAGE_TYPE = 20;
+    private static final int POS_ALT_DEL_DATE = 21;
 
     private static final String CSV_SEPARATOR = ",";
     private static Path filePath;
@@ -47,11 +48,18 @@ public class Data {
 
             String ID = data[POS_ID];
             LocalDate place = parseLocalDate(data[POS_ORDER_PLACED]);
+            LocalDate altDel = parseLocalDate(data[POS_ALT_DEL_DATE]);
             Kunde from = new Kunde(data[POS_FROM_VNAME], data[POS_FROM_LNAME], data[POS_FROM_STREET], data[POS_FROM_STREETNR],
                     data[POS_FROM_PLZ], data[POS_FROM_LOC]);
             Kunde to = new Kunde(data[POS_TO_VNAME], data[POS_TO_LNAME], data[POS_TO_STREET], data[POS_TO_STREETNR], data[POS_TO_PLZ], data[POS_TO_LOC]);
 
-            Versandobjekt versandobjekt = new Versandobjekt(ID, place, from, to, data[POS_DESCRIPTION], data[POS_EXPRESS], data[POS_ALT_LOC], data[POS_ALT_LOC_PLACE], data[POS_INSURED], data[POS_INSUR_TYPE], data[POS_PACKAGE_TYPE]);
+            Versandobjekt versandobjekt = new Versandobjekt(
+                    ID, place, from, to,
+                    data[POS_DESCRIPTION], data[POS_EXPRESS],
+                    data[POS_ALT_LOC], data[POS_ALT_LOC_PLACE],
+                    data[POS_INSURED], data[POS_INSUR_TYPE],
+                    data[POS_PACKAGE_TYPE], altDel
+                    );
 
 
             String filename = "versand-" + LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + ".csv";
@@ -62,7 +70,8 @@ public class Data {
 
     private LocalDate parseLocalDate(String dateStr) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return LocalDate.parse(dateStr, formatter);
+        if(dateStr.isEmpty()) return null;
+        else return LocalDate.parse(dateStr, formatter);
     }
 
     public static boolean writeVersandDataToCSV(String filename, Versandobjekt versand) {
@@ -71,10 +80,11 @@ public class Data {
                 writer.write("Auftrag" + versand.getiD());
                 writer.newLine();
             }
-
+            LocalDate placedDate = versand.getPlaced();
+            LocalDate altDelDate = versand.getAltDelDate();
             StringBuilder line = new StringBuilder();
             line.append("ID: " + versand.getiD()).append(CSV_SEPARATOR).append(System.lineSeparator());
-            LocalDate placedDate = versand.getPlaced();
+
             line.append("Aufgegeben am: " + placedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))).append(CSV_SEPARATOR).append(System.lineSeparator());
             line.append("Absender: ");
             line.append("Vorname: " + versand.getFrom().getvName()).append(CSV_SEPARATOR);
@@ -90,13 +100,16 @@ public class Data {
             line.append("StraßenNr: " + versand.getTo().getStreetNr()).append(CSV_SEPARATOR);
             line.append("PLZ: " + versand.getTo().getPlz()).append(CSV_SEPARATOR);
             line.append("Ort: " + versand.getTo().getLoc()).append(CSV_SEPARATOR);
-            line.append("Inhalt: " + versand.getDescription()).append(CSV_SEPARATOR);
+            line.append("Inhalt: " + versand.getDescription()).append(CSV_SEPARATOR).append(System.lineSeparator());
+            line.append("Lieferhinweise: ");
             line.append(versand.getAltLoc()).append(CSV_SEPARATOR);
             line.append(versand.getAltLocPlace()).append(CSV_SEPARATOR);
             line.append(versand.getExpress()).append(CSV_SEPARATOR);
             line.append(versand.getInsured()).append(CSV_SEPARATOR);
             line.append(versand.getInsuranceType()).append(CSV_SEPARATOR);
-            line.append(versand.getPackageType());
+            line.append(versand.getPackageType()).append(CSV_SEPARATOR);
+            if(altDelDate != null) line.append("Alternatives Lieferdatum: "+ altDelDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            else line.append("Alternatives Lieferdatum: Nein");
 
             writer.write(line.toString());
             writer.newLine();
@@ -142,30 +155,32 @@ public class Data {
                         "Versichert",
                         "Express",
                         "Versicherungshöhe",
-                        "Paketart"
+                        "Paketart",
+                        "Alternatives Lieferdatum",
+                        "Lieferhinweise"
                 };
 
                 int i = 0;
                 boolean found = false;
 
                 while ((line = reader.readLine()) != null) {
-                    String [] parts = line.split(",");
-                    if(parts[0].equals("ID: " + ID)){
+                    String[] parts = line.split(",");
+                    if (parts[0].equals("ID: " + ID)) {
                         found = true;
                     }
-                    if(found){
+                    if (found) {
                         String[] data = line.split(",");
                         for (int x = 0; x < data.length; x++) {
                             if (data[x].contains(":")) {
                                 String[] keyValue = data[x].split(":");
                                 lines.add(keyValue[0].trim());
                                 lines.add(keyValue[1].trim());
-                                if(keyValue[1].trim().equals("Vorname")) lines.add(keyValue[2].trim());
+                                if (keyValue[1].trim().equals("Vorname") || keyValue[1].trim().equals("Lieferhinweise")) lines.add(keyValue[2].trim());
                             }
                         }
                         i++;
                     }
-                    if(i == 3) break;
+                    if (i == 4) break;
                 }
                 for (String keyword : keyWords) {
                     lines.removeIf(item -> item.equals(keyword));
@@ -174,8 +189,8 @@ public class Data {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
-        return createObject(lines);
+        } else return null;
+
     }
 
     public static Versandobjekt createObject(ArrayList<String> data) {
@@ -184,10 +199,17 @@ public class Data {
 
         String ID = data.get(POS_ID);
         LocalDate place = LocalDate.parse(data.get(POS_ORDER_PLACED), formatter);
+        LocalDate altDelDate = LocalDate.parse(data.get(POS_ALT_DEL_DATE), formatter);
         Kunde from = new Kunde(data.get(POS_FROM_VNAME), data.get(POS_FROM_LNAME), data.get(POS_FROM_STREET), data.get(POS_FROM_STREETNR),
                 data.get(POS_FROM_PLZ), data.get(POS_FROM_LOC));
         Kunde to = new Kunde(data.get(POS_TO_VNAME), data.get(POS_TO_LNAME), data.get(POS_TO_STREET), data.get(POS_TO_STREETNR), data.get(POS_TO_PLZ), data.get(POS_TO_LOC));
 
-        return new Versandobjekt(ID, place, from, to, data.get(POS_DESCRIPTION), data.get(POS_EXPRESS), data.get(POS_ALT_LOC), data.get(POS_ALT_LOC_PLACE), data.get(POS_INSURED), data.get(POS_INSUR_TYPE), data.get(POS_PACKAGE_TYPE));
+        return new Versandobjekt(
+                ID, place, from, to,
+                data.get(POS_DESCRIPTION), data.get(POS_EXPRESS),
+                data.get(POS_ALT_LOC), data.get(POS_ALT_LOC_PLACE),
+                data.get(POS_INSURED), data.get(POS_INSUR_TYPE),
+                data.get(POS_PACKAGE_TYPE), altDelDate
+        );
     }
 }

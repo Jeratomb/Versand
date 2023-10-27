@@ -14,6 +14,15 @@ public class Versandobjekt {
     public String insured;
     public String insuranceType;
     public String packageType;
+    public LocalDate altDelDate;
+
+    public LocalDate getAltDelDate() {
+        return altDelDate;
+    }
+
+    public void setAltDelDate(LocalDate altDelDate) {
+        this.altDelDate = altDelDate;
+    }
 
     public String getiD() {
         return iD;
@@ -103,7 +112,7 @@ public class Versandobjekt {
         this.altLocPlace = altLocPlace;
     }
 
-    public Versandobjekt(String iD, LocalDate placed, Kunde from, Kunde to, String description, String express, String altLoc, String altLocPlace, String insured, String insuranceType, String packageType) {
+    public Versandobjekt(String iD, LocalDate placed, Kunde from, Kunde to, String description, String express, String altLoc, String altLocPlace, String insured, String insuranceType, String packageType, LocalDate altDelDate) {
         this.iD = iD;
         this.placed = placed;
         this.from = from;
@@ -115,5 +124,6 @@ public class Versandobjekt {
         this.insured = insured;
         this.insuranceType = insuranceType;
         this.packageType = packageType;
+        this.altDelDate = altDelDate;
     }
 }

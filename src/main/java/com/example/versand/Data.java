@@ -125,7 +125,7 @@ public class Data {
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath.toString()))) {
                 String line;
 
-                String [] keyWords = {
+                String[] keyWords = {
                         "ID",
                         "Aufgegeben am",
                         "Absender",
@@ -136,7 +136,7 @@ public class Data {
                         "StraßenNr",
                         "PLZ",
                         "Ort",
-                         "Inhalt",
+                        "Inhalt",
                         "Alternativer Abgabeort",
                         "Ablageort",
                         "Versichert",
@@ -149,8 +149,8 @@ public class Data {
                 boolean found = false;
 
                 while ((line = reader.readLine()) != null) {
-                    String[] parts = line.split(",");
-                    if(parts[0].equals("ID: "+ ID)){
+                    String [] parts = line.split(",");
+                    if(parts[0].equals("ID: " + ID)){
                         found = true;
                     }
                     if(found){
@@ -160,13 +160,14 @@ public class Data {
                                 String[] keyValue = data[x].split(":");
                                 lines.add(keyValue[0].trim());
                                 lines.add(keyValue[1].trim());
+                                if(keyValue[1].trim().equals("Vorname")) lines.add(keyValue[2].trim());
                             }
                         }
                         i++;
                     }
                     if(i == 3) break;
                 }
-                for(String keyword : keyWords){
+                for (String keyword : keyWords) {
                     lines.removeIf(item -> item.equals(keyword));
                 }
                 return createObject(lines);
@@ -177,7 +178,7 @@ public class Data {
         return createObject(lines);
     }
 
-    public static Versandobjekt createObject(ArrayList<String> data){
+    public static Versandobjekt createObject(ArrayList<String> data) {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 
 
@@ -187,8 +188,6 @@ public class Data {
                 data.get(POS_FROM_PLZ), data.get(POS_FROM_LOC));
         Kunde to = new Kunde(data.get(POS_TO_VNAME), data.get(POS_TO_LNAME), data.get(POS_TO_STREET), data.get(POS_TO_STREETNR), data.get(POS_TO_PLZ), data.get(POS_TO_LOC));
 
-        Versandobjekt versandobjekt = new Versandobjekt(ID, place, from, to, data.get(POS_DESCRIPTION), data.get(POS_EXPRESS), data.get(POS_ALT_LOC), data.get(POS_ALT_LOC_PLACE), data.get(POS_INSURED), data.get(POS_INSUR_TYPE), data.get(POS_PACKAGE_TYPE));
-
-        return versandobjekt;
+        return new Versandobjekt(ID, place, from, to, data.get(POS_DESCRIPTION), data.get(POS_EXPRESS), data.get(POS_ALT_LOC), data.get(POS_ALT_LOC_PLACE), data.get(POS_INSURED), data.get(POS_INSUR_TYPE), data.get(POS_PACKAGE_TYPE));
     }
 }

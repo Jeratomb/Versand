@@ -180,7 +180,7 @@ public class HelloController {
 
     @FXML
     public void onbtnSave(ActionEvent actionEvent) {
-        String[] dataString = new String[data.length + 2 + checkBxs.length + 2];
+        String[] dataString = new String[data.length + 2 + checkBxs.length + 3];
         LocalDate selectedDate = dtpCom.getValue();
         String insuranceAmount;
         dataString[0] = data[0].getText();
@@ -207,6 +207,8 @@ public class HelloController {
         dataString[data.length + checkBxs.length + 2] = "Versicherungshöhe: " + insuranceAmount;
         dataString[data.length + checkBxs.length + 3] = "Paketart: " + delToggleGroup.getSelectedToggle().getUserData().toString();
 
+//        dataString[data.length + checkBxs.length + 4] = dtpDel.getValue().toString();
+
         Data data = new Data();
         status = data.useData(dataString);
         if (status) lblStatus.setText("Erfolgreich gespeichert");
@@ -220,40 +222,62 @@ public class HelloController {
         String dateString = selectedDate != null ? selectedDate.toString() : "";
         Versandobjekt object = Data.getData(dateString, ID);
 
-        txtID.setText(ID);
-        dtpCom.setValue(selectedDate);
-        txtFname.setText(object.getFrom().getvName());
-        txtFLname.setText(object.getFrom().getlName());
-        txtFstr.setText(object.getFrom().getStreet());
-        txtFstrNr.setText(object.getFrom().getStreetNr());
-        txtFplz.setText(object.getFrom().getPlz());
-        txtFloc.setText(object.getFrom().getLoc());
-        txtTname.setText(object.getTo().getvName());
-        txtTLname.setText(object.getTo().getlName());
-        txtTstr.setText(object.getTo().getStreet());
-        txtTstrNr.setText(object.getTo().getStreetNr());
-        txtTplz.setText(object.getTo().getPlz());
-        txtTloc.setText(object.getTo().getLoc());
-        txtDesc.setText(object.getDescription());
-        chckExp.setSelected(object.getExpress().equalsIgnoreCase("Ja"));
-        chckAlt.setSelected(object.getAltLoc().equalsIgnoreCase("Ja"));
-        if(chckAlt.isSelected()) txtAlt.setText(object.getAltLocPlace());
-        chckIns.setSelected(object.getInsured().equalsIgnoreCase("Ja"));
-        if(chckIns.isSelected()){
+        if(object != null) {
+            txtID.setText(ID);
+            dtpCom.setValue(selectedDate);
+            txtFname.setText(object.getFrom().getvName());
+            txtFLname.setText(object.getFrom().getlName());
+            txtFstr.setText(object.getFrom().getStreet());
+            txtFstrNr.setText(object.getFrom().getStreetNr());
+            txtFplz.setText(object.getFrom().getPlz());
+            txtFloc.setText(object.getFrom().getLoc());
+            txtTname.setText(object.getTo().getvName());
+            txtTLname.setText(object.getTo().getlName());
+            txtTstr.setText(object.getTo().getStreet());
+            txtTstrNr.setText(object.getTo().getStreetNr());
+            txtTplz.setText(object.getTo().getPlz());
+            txtTloc.setText(object.getTo().getLoc());
+            txtDesc.setText(object.getDescription());
+            chckExp.setSelected(object.getExpress().equalsIgnoreCase("Ja"));
+            chckAlt.setSelected(object.getAltLocPlace().equalsIgnoreCase("Ja"));
 
-            if (object.getInsuranceType().equalsIgnoreCase("<100")) {
-                rdb100.setSelected(true);
-            } else if (object.getInsuranceType().equalsIgnoreCase("<500")) {
-                rdb500.setSelected(true);
-            } else{
-                rdbO500.setSelected(true);
-                txtAmount.setText(object.getInsuranceType());
+            if (chckAlt.isSelected()) txtAlt.setText(object.getAltLoc());
+            chckIns.setSelected(object.getInsured().equalsIgnoreCase("Ja"));
+            if (chckIns.isSelected()) {
+
+                if (object.getInsuranceType().equalsIgnoreCase("<100")) {
+                    rdb100.setSelected(true);
+                } else if (object.getInsuranceType().equalsIgnoreCase("<500")) {
+                    rdb500.setSelected(true);
+                } else {
+                    rdbO500.setSelected(true);
+                    txtAmount.setText(object.getInsuranceType());
+                }
             }
-        }
-
-
+        }else clear();
     }
 
+    private void clear(){
+        txtID.setText("");
+        dtpCom.setValue(null);
+        txtFname.setText("");
+        txtFLname.setText("");
+        txtFstr.setText("");
+        txtFstrNr.setText("");
+        txtFplz.setText("");
+        txtFloc.setText("");
+        txtTname.setText("");
+        txtTLname.setText("");
+        txtTstr.setText("");
+        txtTstrNr.setText("");
+        txtTplz.setText("");
+        txtTloc.setText("");
+        txtDesc.setText("");
+        chckExp.setSelected(false);
+        chckAlt.setSelected(false);
+        chckIns.setSelected(false);
+
+    }
     private void loadSlider() {
         sldDisc.setMax(10);
         sldDisc.setMin(0);

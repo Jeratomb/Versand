@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 
 public class Data {
 
@@ -99,7 +100,7 @@ public class Data {
             line.append("Straße: " + versand.getTo().getStreet()).append(CSV_SEPARATOR);
             line.append("StraßenNr: " + versand.getTo().getStreetNr()).append(CSV_SEPARATOR);
             line.append("PLZ: " + versand.getTo().getPlz()).append(CSV_SEPARATOR);
-            line.append("Ort: " + versand.getTo().getLoc()).append(CSV_SEPARATOR);
+            line.append("Ort: " + versand.getTo().getLoc()).append(CSV_SEPARATOR).append(System.lineSeparator());
             line.append("Inhalt: " + versand.getDescription()).append(CSV_SEPARATOR).append(System.lineSeparator());
             line.append("Lieferhinweise: ");
             line.append(versand.getAltLoc()).append(CSV_SEPARATOR);
@@ -109,7 +110,7 @@ public class Data {
             line.append(versand.getInsuranceType()).append(CSV_SEPARATOR);
             line.append(versand.getPackageType()).append(CSV_SEPARATOR);
             if(altDelDate != null) line.append("Alternatives Lieferdatum: "+ altDelDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            else line.append("Alternatives Lieferdatum: Nein");
+            else line.append("Alternatives Lieferdatum: ");
 
             writer.write(line.toString());
             writer.newLine();
@@ -170,20 +171,23 @@ public class Data {
                     }
                     if (found) {
                         String[] data = line.split(",");
-                        for (int x = 0; x < data.length; x++) {
-                            if (data[x].contains(":")) {
-                                String[] keyValue = data[x].split(":");
+                        for (String str : data) {
+                            if (str.contains(":")) {
+                                String[] keyValue = str.split(":");
                                 lines.add(keyValue[0].trim());
-                                lines.add(keyValue[1].trim());
-                                if (keyValue[1].trim().equals("Vorname") || keyValue[1].trim().equals("Lieferhinweise")) lines.add(keyValue[2].trim());
+                                if(keyValue.length != 1) {
+                                    lines.add(keyValue[1].trim());
+                                    if (keyValue[1].trim().equals("Vorname") || keyValue[0].trim().equals("Lieferhinweise"))
+                                        lines.add(keyValue[2].trim());
+                                }
                             }
                         }
                         i++;
                     }
-                    if (i == 4) break;
+                    if (i == 6) break;
                 }
                 for (String keyword : keyWords) {
-                    lines.removeIf(item -> item.equals(keyword));
+                    lines.removeIf(item -> item.equalsIgnoreCase(keyword));
                 }
                 return createObject(lines);
             } catch (IOException e) {
@@ -195,11 +199,12 @@ public class Data {
 
     public static Versandobjekt createObject(ArrayList<String> data) {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
-
+        LocalDate altDelDate;
 
         String ID = data.get(POS_ID);
         LocalDate place = LocalDate.parse(data.get(POS_ORDER_PLACED), formatter);
-        LocalDate altDelDate = LocalDate.parse(data.get(POS_ALT_DEL_DATE), formatter);
+        if(data.size() > 21) altDelDate = LocalDate.parse(data.get(POS_ALT_DEL_DATE), formatter);
+        else altDelDate = null;
         Kunde from = new Kunde(data.get(POS_FROM_VNAME), data.get(POS_FROM_LNAME), data.get(POS_FROM_STREET), data.get(POS_FROM_STREETNR),
                 data.get(POS_FROM_PLZ), data.get(POS_FROM_LOC));
         Kunde to = new Kunde(data.get(POS_TO_VNAME), data.get(POS_TO_LNAME), data.get(POS_TO_STREET), data.get(POS_TO_STREETNR), data.get(POS_TO_PLZ), data.get(POS_TO_LOC));

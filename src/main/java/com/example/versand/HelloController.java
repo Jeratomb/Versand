@@ -216,8 +216,7 @@ public class HelloController {
         dataString[data.length + checkBxs.length + 2] = "Versicherungshöhe: " + insuranceAmount;
         dataString[data.length + checkBxs.length + 3] = "Paketart: " + delToggleGroup.getSelectedToggle().getUserData().toString();
 
-        if(!altDate.isEmpty()) dataString[data.length + checkBxs.length + 4] = altDate;
-        else dataString[data.length + checkBxs.length + 4] = "";
+        dataString[data.length + checkBxs.length + 4] = altDate;
 
         Data data = new Data();
         status = data.useData(dataString);
@@ -264,6 +263,8 @@ public class HelloController {
                     txtAmount.setText(object.getInsuranceType());
                 }
             }
+            if(object.getAltDelDate() != null) dtpDel.setValue(object.getAltDelDate());
+            else dtpDel.setValue(null);
         }else clear();
     }
 

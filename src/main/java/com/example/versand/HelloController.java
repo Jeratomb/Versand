@@ -88,7 +88,6 @@ public class HelloController {
     private Slider sldDisc;
     @FXML
     private Label lblAmount;
-    private boolean status;
     ToggleGroup insToggleGroup = new ToggleGroup();
     ToggleGroup delToggleGroup = new ToggleGroup();
     @FXML
@@ -137,7 +136,7 @@ public class HelloController {
         DecimalFormat f = new DecimalFormat("0.00");
         String insToggleData = "";
         String delToggleData = "";
-        double discount = sldDisc.getValue() /  10;
+        double discount = sldDisc.getValue() / 10;
 
         if (insToggle != null) {
             insToggleData = insToggle.getUserData().toString();
@@ -178,7 +177,7 @@ public class HelloController {
                 }
             }
         } else preis += 0;
-        if(sldDisc.getValue() != 0) preis = preis - (preis * discount);
+        if (sldDisc.getValue() != 0) preis = preis - (preis * discount);
         String output = f.format(preis);
         lblAmount.setText(output);
     }
@@ -190,38 +189,42 @@ public class HelloController {
         LocalDate selectedDate = dtpCom.getValue();
         String insuranceAmount;
         String altDate;
-        if(dtpDel.getValue() != null) altDate = dtpDel.getValue().toString();
+        if (dtpDel.getValue() != null) altDate = dtpDel.getValue().toString();
         else altDate = "";
-        dataString[0] = data[0].getText();
-        dataString[1] = selectedDate != null ? selectedDate.toString() : "";
+        if (validateFields()) {
+            dataString[0] = data[0].getText();
+            dataString[1] = selectedDate != null ? selectedDate.toString() : "";
 
 
-        for (int i = 2, k = 1; i < data.length + 1; i++, k++) {
-            dataString[i] = data[k].getText();
+            for (int i = 2, k = 1; i < data.length + 1; i++, k++) {
+                dataString[i] = data[k].getText();
+            }
+
+            for (int k = data.length + 1, i = 0; i < 3; k++, i++) {
+                if (checkBxs[i].isSelected()) {
+                    dataString[k] = checkBxs[i].getText() + ": Ja";
+                    if (checkBxs[i] == chckAlt) {
+                        k = k + 1;
+                        dataString[k] = "Ablageort: " + txtAlt.getText().toString();
+                    }
+                } else dataString[k] = checkBxs[i].getText() + ": Nein";
+            }
+
+            if (insToggleGroup.getSelectedToggle().getUserData().toString() == "Over 500")
+                insuranceAmount = txtAmount.getText().toString();
+            else insuranceAmount = insToggleGroup.getSelectedToggle().getUserData().toString();
+            dataString[data.length + checkBxs.length + 2] = "Versicherungshöhe: " + insuranceAmount;
+            dataString[data.length + checkBxs.length + 3] = "Paketart: " + delToggleGroup.getSelectedToggle().getUserData().toString();
+
+            dataString[data.length + checkBxs.length + 4] = altDate;
+
+            Data data = new Data();
+            boolean status = data.useData(dataString);
+            if (status) lblStatus.setText("Erfolgreich gespeichert");
+            else lblStatus.setText("Fehler beim Einfügen!");
+        } else {
+            lblStatus.setText("Fehler: Es sind nicht alle Pflichtfelder ausgefüllt.");
         }
-
-        for (int k = data.length + 1, i = 0; i < 3; k++, i++) {
-            if (checkBxs[i].isSelected()) {
-                dataString[k] = checkBxs[i].getText() + ": Ja";
-                if (checkBxs[i] == chckAlt) {
-                    k = k + 1;
-                    dataString[k] = "Ablageort: " + txtAlt.getText().toString();
-                }
-            } else dataString[k] = checkBxs[i].getText() + ": Nein";
-        }
-
-        if (insToggleGroup.getSelectedToggle().getUserData().toString() == "Over 500")
-            insuranceAmount = txtAmount.getText().toString();
-        else insuranceAmount = insToggleGroup.getSelectedToggle().getUserData().toString();
-        dataString[data.length + checkBxs.length + 2] = "Versicherungshöhe: " + insuranceAmount;
-        dataString[data.length + checkBxs.length + 3] = "Paketart: " + delToggleGroup.getSelectedToggle().getUserData().toString();
-
-        dataString[data.length + checkBxs.length + 4] = altDate;
-
-        Data data = new Data();
-        status = data.useData(dataString);
-        if (status) lblStatus.setText("Erfolgreich gespeichert");
-        else lblStatus.setText("Fehler beim Einfügen!");
     }
 
     @FXML
@@ -231,7 +234,7 @@ public class HelloController {
         String dateString = selectedDate != null ? selectedDate.toString() : "";
         Versandobjekt object = Data.getData(dateString, ID);
 
-        if(object != null) {
+        if (object != null) {
             txtID.setText(ID);
             dtpCom.setValue(selectedDate);
             txtFname.setText(object.getFrom().getvName());
@@ -263,13 +266,21 @@ public class HelloController {
                     txtAmount.setText(object.getInsuranceType());
                 }
             }
-            if(object.getAltDelDate() != null) dtpDel.setValue(object.getAltDelDate());
+            if (object.getAltDelDate() != null) dtpDel.setValue(object.getAltDelDate());
             else dtpDel.setValue(null);
-        }else clear();
+        } else clear();
     }
 
-    @FXML
-    private void clear(){
+    private boolean validateFields(){
+        for (TextField field : data) {
+            if (field.getText().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+   @FXML
+    private void clear() {
         txtID.setText("");
         dtpCom.setValue(null);
         txtFname.setText("");
@@ -383,6 +394,7 @@ public class HelloController {
         });
 
     }
+
     @FXML
     private void loadAlt() {
         txtAlt.setDisable(true);

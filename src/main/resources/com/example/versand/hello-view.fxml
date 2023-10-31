@@ -15,21 +15,59 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.versand.HelloController">
    <children>
+      <TextField fx:id="txtID" layoutX="177.0" layoutY="108.0" prefHeight="25.0" prefWidth="331.0" />
+      <DatePicker fx:id="dtpCom" layoutX="205.0" layoutY="155.0" prefHeight="25.0" prefWidth="191.0" />
       <TitledPane fx:id="tpFrom" animated="false" collapsible="false" layoutX="120.0" layoutY="199.0" prefHeight="198.0" prefWidth="413.0" text="Absender">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="172.0" prefWidth="380.0">
                <children>
                   <TextField fx:id="txtFname" layoutX="82.0" layoutY="30.0" prefHeight="25.0" prefWidth="115.0" promptText="" />
-                  <TextField fx:id="txtFstr" layoutX="82.0" layoutY="74.0" prefHeight="25.0" prefWidth="165.0" promptText="" />
-                  <TextField fx:id="txtFloc" layoutX="173.0" layoutY="125.0" prefHeight="25.0" prefWidth="193.0" promptText="" />
-                  <TextField fx:id="txtFplz" layoutX="53.0" layoutY="125.0" prefHeight="25.0" prefWidth="58.0" promptText="" />
                   <TextField fx:id="txtFLname" layoutX="254.0" layoutY="30.0" prefHeight="25.0" prefWidth="115.0" promptText="" />
+                  <TextField fx:id="txtFstr" layoutX="82.0" layoutY="74.0" prefHeight="25.0" prefWidth="165.0" promptText="" />
                   <TextField fx:id="txtFstrNr" layoutX="264.0" layoutY="74.0" prefHeight="25.0" prefWidth="47.0" promptText="" />
+                  <TextField fx:id="txtFplz" layoutX="53.0" layoutY="125.0" prefHeight="25.0" prefWidth="58.0" promptText="" />
+                  <TextField fx:id="txtFloc" layoutX="173.0" layoutY="125.0" prefHeight="25.0" prefWidth="193.0" promptText="" />
                   <Text layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vorname:" />
                   <Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Straße:" />
                   <Text layoutX="14.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLZ:" />
                   <Text layoutX="212.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
                   <Text layoutX="140.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ort:" wrappingWidth="19.88671875" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane fx:id="tpTo" animated="false" collapsible="false" layoutX="120.0" layoutY="400.0" prefHeight="198.0" prefWidth="413.0" text="Empfänger">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="172.0" prefWidth="380.0">
+               <children>
+                  <TextField fx:id="txtTname" layoutX="82.0" layoutY="30.0" prefHeight="25.0" prefWidth="115.0" promptText="" />
+                  <TextField fx:id="txtTLname" layoutX="254.0" layoutY="30.0" prefHeight="25.0" prefWidth="115.0" promptText="" />
+                  <TextField fx:id="txtTstr" layoutX="82.0" layoutY="74.0" prefHeight="25.0" prefWidth="165.0" promptText="" />
+                  <TextField fx:id="txtTstrNr" layoutX="264.0" layoutY="74.0" prefHeight="25.0" prefWidth="47.0" promptText="" />
+                  <TextField fx:id="txtTplz" layoutX="53.0" layoutY="125.0" prefHeight="25.0" prefWidth="58.0" promptText="" />
+                  <TextField fx:id="txtTloc" layoutX="173.0" layoutY="125.0" prefHeight="25.0" prefWidth="193.0" promptText="" />
+                  <Text layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vorname:" />
+                  <Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Straße:" />
+                  <Text layoutX="14.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLZ:" />
+                  <Text layoutX="212.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
+                  <Text layoutX="140.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ort:" wrappingWidth="19.88671875" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <TextField fx:id="txtDesc" layoutX="120.0" layoutY="630.0" prefHeight="81.0" prefWidth="413.0" promptText="" />
+      <TitledPane fx:id="tpDel" animated="false" collapsible="false" layoutX="550.0" layoutY="199.0" prefHeight="256.0" prefWidth="390.0" text="Zustellung">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <CheckBox fx:id="chckExp" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Express" />
+                  <RadioButton fx:id="rdbLett" layoutX="14.0" layoutY="55.0" mnemonicParsing="false" selected="true" text="Brief" />
+                  <RadioButton fx:id="rdbPac" layoutX="107.0" layoutY="55.0" mnemonicParsing="false" text="Päckchen" />
+                  <RadioButton fx:id="rdbBPac" layoutX="207.0" layoutY="55.0" mnemonicParsing="false" text="Paket" />
+                  <DatePicker fx:id="dtpDel" layoutX="181.0" layoutY="91.0" />
+                  <TextArea fx:id="txtAlt" layoutX="24.0" layoutY="149.0" prefHeight="66.0" prefWidth="337.0" promptText="" />
+                  <CheckBox fx:id="chckAlt" layoutX="26.0" layoutY="124.0" mnemonicParsing="false" text="Alternativer Abgabeort" />
+                  <Text layoutX="24.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wunschtermin Zustellung:" />
                </children>
             </AnchorPane>
         </content>
@@ -60,45 +98,7 @@
             </AnchorPane>
         </content>
       </TitledPane>
-      <TitledPane fx:id="tpDel" animated="false" collapsible="false" layoutX="550.0" layoutY="199.0" prefHeight="256.0" prefWidth="390.0" text="Zustellung">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <CheckBox fx:id="chckExp" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Express" />
-                  <RadioButton fx:id="rdbLett" layoutX="14.0" layoutY="55.0" mnemonicParsing="false" selected="true" text="Brief" />
-                  <RadioButton fx:id="rdbPac" layoutX="107.0" layoutY="55.0" mnemonicParsing="false" text="Päckchen" />
-                  <RadioButton fx:id="rdbBPac" layoutX="207.0" layoutY="55.0" mnemonicParsing="false" text="Paket" />
-                  <TextArea fx:id="txtAlt" layoutX="24.0" layoutY="149.0" prefHeight="66.0" prefWidth="337.0" promptText="" />
-                  <CheckBox fx:id="chckAlt" layoutX="26.0" layoutY="124.0" mnemonicParsing="false" text="Alternativer Abgabeort" />
-                  <Text layoutX="24.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wunschtermin Zustellung:" />
-                  <DatePicker fx:id="dtpDel" layoutX="181.0" layoutY="91.0" />
-               </children>
-            </AnchorPane>
-        </content>
-      </TitledPane>
-      <TitledPane fx:id="tpTo" animated="false" collapsible="false" layoutX="120.0" layoutY="400.0" prefHeight="198.0" prefWidth="413.0" text="Empfänger">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="172.0" prefWidth="380.0">
-               <children>
-                  <TextField fx:id="txtTname" layoutX="82.0" layoutY="30.0" prefHeight="25.0" prefWidth="115.0" promptText="" />
-                  <TextField fx:id="txtTstr" layoutX="82.0" layoutY="74.0" prefHeight="25.0" prefWidth="165.0" promptText="" />
-                  <TextField fx:id="txtTloc" layoutX="173.0" layoutY="125.0" prefHeight="25.0" prefWidth="193.0" promptText="" />
-                  <TextField fx:id="txtTplz" layoutX="53.0" layoutY="125.0" prefHeight="25.0" prefWidth="58.0" promptText="" />
-                  <TextField fx:id="txtTLname" layoutX="254.0" layoutY="30.0" prefHeight="25.0" prefWidth="115.0" promptText="" />
-                  <TextField fx:id="txtTstrNr" layoutX="264.0" layoutY="74.0" prefHeight="25.0" prefWidth="47.0" promptText="" />
-                  <Text layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vorname:" />
-                  <Text layoutX="14.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Straße:" />
-                  <Text layoutX="14.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PLZ:" />
-                  <Text layoutX="212.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" />
-                  <Text layoutX="140.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ort:" wrappingWidth="19.88671875" />
-               </children>
-            </AnchorPane>
-         </content>
-      </TitledPane>
-      <TextField fx:id="txtDesc" layoutX="120.0" layoutY="630.0" prefHeight="81.0" prefWidth="413.0" promptText="" />
       <Text layoutX="120.0" layoutY="619.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Beschreibung des Inhalts:" />
-      <TextField fx:id="txtID" layoutX="177.0" layoutY="108.0" prefHeight="25.0" prefWidth="331.0" text="12314" />
-      <DatePicker fx:id="dtpCom" layoutX="205.0" layoutY="155.0" prefHeight="25.0" prefWidth="191.0" />
       <Button fx:id="btnSave" layoutX="533.0" layoutY="108.0" mnemonicParsing="false" onAction="#onbtnSave" text="Speichern" />
       <Button fx:id="btnLoad" layoutX="617.0" layoutY="108.0" mnemonicParsing="false" onAction="#onbtnLoad" text="Laden" />
       <Text layoutX="687.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meldung:" />
@@ -117,6 +117,6 @@
             <Font size="13.0" />
          </font>
       </Text>
-      <Label fx:id="lblStatus" layoutX="760.0" layoutY="112.0" prefHeight="17.0" prefWidth="61.0" />
+      <Label fx:id="lblStatus" layoutX="760.0" layoutY="98.0" prefHeight="45.0" prefWidth="260.0" />
    </children>
 </AnchorPane>

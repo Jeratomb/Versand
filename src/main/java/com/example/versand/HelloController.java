@@ -9,6 +9,7 @@ import javafx.scene.text.Text;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -219,9 +220,15 @@ public class HelloController {
             dataString[data.length + checkBxs.length + 4] = altDate;
 
             Data data = new Data();
-            boolean status = data.useData(dataString);
-            if (status) lblStatus.setText("Erfolgreich gespeichert");
-            else lblStatus.setText("Fehler beim Einfügen!");
+            System.out.println(dtpDel.getValue().getDayOfWeek());
+
+            if (selectedDate.isBefore(LocalDate.now())) lblStatus.setText("Datum darf nicht in der Vergangenheit liegen!");
+            else if (!altDate.isEmpty() && dtpDel.getValue().getDayOfWeek() == DayOfWeek.SUNDAY) lblStatus.setText("Wunschzustellung darf nicht an einem Sonntag sein!");
+            else {
+                boolean status = data.useData(dataString);
+                if(status) lblStatus.setText("Erfolgreich gespeichert");
+                else lblStatus.setText("Fehler beim einfügen!");
+            }
         } else {
             lblStatus.setText("Fehler: Es sind nicht alle Pflichtfelder ausgefüllt.");
         }
